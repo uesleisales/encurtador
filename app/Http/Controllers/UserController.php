@@ -21,6 +21,12 @@ class UserController extends Controller
         return response()->json(['message' => $create['message'], 'data' => $create['data']],$create['statusCode']);        
    }
 
+
+   public function getStats($id){
+      $show = UserService::getStats($id);
+      return response()->json($show ,$show['statusCode']);  
+   }
+
    public function delete($id){
     $delete = UserService::delete($id);
     return response()->json($delete ,$delete['statusCode']);  

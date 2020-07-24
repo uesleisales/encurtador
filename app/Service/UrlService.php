@@ -18,7 +18,7 @@ class UrlService
                 'data' => [],
             ];
         }
-        
+
         //Verifica se a url do usuário veio preenchido
         if($data->input('url')){
 
@@ -49,6 +49,17 @@ class UrlService
        
     }
 
+
+    public static function get($id){
+        $url = Url::find($id);
+
+        if($url != null){
+            return redirect($url->url, 301);
+        }
+
+        return response('URL não encontrada', 404);
+    }
+
     public static function delete($id){
 
         if(Url::destroy($id)){
@@ -63,6 +74,7 @@ class UrlService
         }
         
     }
+
 
 
     /*

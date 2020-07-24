@@ -10,4 +10,8 @@ class User extends Model
     protected $fillable = [
         'nameId'
     ];
+
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
 }

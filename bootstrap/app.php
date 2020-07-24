@@ -23,7 +23,7 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+$app->withFacades();
 
 $app->withEloquent();
 
@@ -72,9 +72,9 @@ $app->configure('app');
 |
 */
 
-$app->middleware([
-    \App\Http\Middleware\JsonMiddleware::class,
-]);
+// $app->middleware([
+//     \App\Http\Middleware\JsonMiddleware::class,
+// ]);
 
 $app->routeMiddleware([
     'return-json' => \App\Http\Middleware\JsonMiddleware::class,
