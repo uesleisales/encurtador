@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\UserService;
-use Illuminate\Support\Facades\Input;
+use App\Service\UrlService;
 
-class ShortController extends Controller
+
+class UserController extends Controller
 {
    public function index(){
        return redirect('/');
    }
 
+   /**
+     * Cadastra um novo usuário no sistema.
+     */
    public function createUser(Request $request){
+        
         $create = UserService::create($request);
         return response()->json(['message' => $create['message'], 'data' => $create['data']],$create['statusCode']);        
    }
-
 }

@@ -1,27 +1,41 @@
 <?php
 
 namespace App\Service;
-
+use App\Models\User;
 class UserService
-{
+{   
     static public function create($data){
-        //Verifica se os dados recebidos estão no formato de json
-        if($data->header('Content-Type') == "application/json"){
-            //Verifica se o id do usuário veio preenchido
-            if($data->input('id')){
-                //Verifica se o usuário já existe na base de dados
+        $id = $data->input('id');
+
+        //Verifica se o id do usuário veio preenchido
+        if($id){
+
+            //Verifica se o usuário já existe na base de dados
+            if(User::where('nameId', $id)->count() != 0){
                 return [
-                    'message' => 'Usuário cadastrado com sucesso',
-                    'statusCode' => 201,
+                    'message' => 'Usuário já cadastrado na base',
+                    'statusCode' => 409,
                     'data' => [],
                 ];
             }
-        }else{
+
+            $user = User::Create(['nameId' => $id]);
             return [
-                'message' => 'Formato da requisição é inválido!',
+                'message' => 'Usuário cadastrado com sucesso',
+                'statusCode' => 201,
+                'data' => [],
+            ];
+
+        }else{
+
+            return [
+                'message' => 'Dados inválidos!',
                 'statusCode' => 422,
                 'data' => [],
             ];
+
         }
+       
     }
+
 }

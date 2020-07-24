@@ -14,8 +14,8 @@ $router->get('/', function(){
     return "Página inicial";
 });
 
-$router->get('/{id}', ['uses' => 'ShortController@index']);
-$router->post('/users', ['uses' => 'ShortController@createUser']);
-$router->post('/users/{id}/urls', ['uses' => 'ShortController@index']);
-$router->delete('/urls/{id}', ['uses' => 'ShortController@index']);
+$router->get('/{id}', ['uses' => 'UserController@index']);
+$router->post('/users', ['middleware' => 'return-json', 'uses' => 'UserController@createUser']);
+$router->post('/users/{id}/urls', ['middleware' => 'return-json', 'uses' => 'UrlController@createUrl']);
+$router->delete('/urls/{id}', ['middleware' => 'return-json', 'uses' => 'UrlController@delete']);
 // $router->get('/stats', ['uses' => 'ShortController@index']);
