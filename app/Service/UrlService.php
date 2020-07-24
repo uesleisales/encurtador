@@ -51,10 +51,10 @@ class UrlService
 
 
     public static function get($id){
-        $url = Url::find($id);
+        $url = Url::where('id',$id)->orWhere('shortUrl',$id)->first();
 
         if($url != null){
-            return redirect($url->url, 301);
+            return redirect($url['url'], 301);
         }
 
         return response('URL não encontrada', 404);
@@ -74,7 +74,6 @@ class UrlService
         }
         
     }
-
 
 
     /*

@@ -61,13 +61,20 @@ class StatsService
     static public function getUserUrlStats($user_id){
         
         $user = User::where('nameId', $user_id)->first();
-
+        
         if($user != null){
-            
+            $topUrls = Url::where('user_id', $user['id'])->orderBy('hits', 'desc')->take(10)->get();
+            $shortBase = $topUrls->groupBy('id')->map(function ($group) {
+                return tap(clone $group->first(), function ($item) use ($group) {
+                    $item->shortUrl =  url('/').'/'.$item->shortUrl;
+                });
+            });
+
+
             $data = [
                 'hits' => Url::where('user_id', $user['id'])->sum('hits'),
                 'urlCount' => Url::where('user_id', $user['id'])->count(),
-                'topUrls' =>  Url::where('user_id', $user['id'])->orderBy('hits', 'desc')->take(10)->get(),
+                'topUrls' => $shortBase,
                 'statusCode' => 200,
             ];
 
@@ -83,11 +90,18 @@ class StatsService
 
 
     static public function getAllStats(){
-       
+        $topUrls = Url::orderBy('hits', 'desc')->take(10)->get();
+
+        $shortBase = $topUrls->groupBy('id')->map(function ($group) {
+            return tap(clone $group->first(), function ($item) use ($group) {
+                $item->shortUrl =  url('/').'/'.$item->shortUrl;
+            });
+        });
+
         $data = [
             'hits' => Url::sum('hits'),
             'urlCount' => Url::count(),
-            'topUrls' =>  Url::orderBy('hits', 'desc')->take(10)->get(),
+            'topUrls' => $shortBase ,
         ];
 
         return $data;
