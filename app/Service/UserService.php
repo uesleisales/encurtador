@@ -5,6 +5,10 @@ use App\Models\User;
 use App\Models\Url;
 class UserService
 {   
+
+    /**
+    * Cadastra um novo usuário ao sistema
+    */
     static public function create($data){
         $id = $data->input('id');
 
@@ -39,7 +43,9 @@ class UserService
        
     }
 
-
+    /**
+    * Remove um usuário do sistema
+    */
     static public function delete($id){
 
         $user = User::where('nameId', $id)->first();

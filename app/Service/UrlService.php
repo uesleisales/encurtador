@@ -6,6 +6,10 @@ use App\Models\Url;
 
 class UrlService
 {   
+
+     /**
+    * Cadastra uma nova url ao sistema
+    */
     static public function create($data, $id){
         $url = $data->input('url');
         //Verifica se existe um usuário associado ao id enviado 
@@ -49,7 +53,9 @@ class UrlService
        
     }
 
-
+     /**
+    * Recupera uma determinada URL cadastrada
+    */
     public static function get($id){
         $url = Url::where('id',$id)->orWhere('shortUrl',$id)->first();
 
@@ -60,6 +66,10 @@ class UrlService
         return response('URL não encontrada', 404);
     }
 
+
+    /**
+    * Remove uma determinada URL do sistema
+    */
     public static function delete($id){
 
         if(Url::destroy($id)){

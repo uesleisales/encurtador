@@ -13,8 +13,8 @@ class UserController extends Controller
    }
 
    /**
-     * Cadastra um novo usuário no sistema.
-     */
+    * Retorna 201 em caso de sucesso no cadastro do usuário e 409 em caso de conflito
+    */
    public function createUser(Request $request){
         
         $create = UserService::create($request);
@@ -22,11 +22,9 @@ class UserController extends Controller
    }
 
 
-   public function getStats($id){
-      $show = UserService::getStats($id);
-      return response()->json($show ,$show['statusCode']);  
-   }
-
+    /**
+    * Retorna 201 em caso de sucesso na remoção do usuário
+    */
    public function delete($id){
     $delete = UserService::delete($id);
     return response()->json($delete ,$delete['statusCode']);  

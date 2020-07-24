@@ -6,6 +6,10 @@ use App\Models\Url;
 
 class StatsService
 {   
+    
+    /**
+    * Adiciona um nova URL ao banco de dados
+    */
     static public function create($data, $id){
        
         //Verifica se a url do usuário veio preenchido
@@ -38,6 +42,9 @@ class StatsService
        
     }
 
+     /**
+    * Recupera o estado de uma URL individual
+    */
     public static function getUrlStats($id){
         $url = Url::find($id);
 
@@ -57,19 +64,24 @@ class StatsService
         }
     }
 
-
+    /**
+    * Recupera o estado das URLs de determinado usuário
+    */
     static public function getUserUrlStats($user_id){
         
         $user = User::where('nameId', $user_id)->first();
         
         if($user != null){
+
+            //======================================================================================
+            //Concatena a URL base do servidor ao campo shortUrl 
             $topUrls = Url::where('user_id', $user['id'])->orderBy('hits', 'desc')->take(10)->get();
             $shortBase = $topUrls->groupBy('id')->map(function ($group) {
                 return tap(clone $group->first(), function ($item) use ($group) {
                     $item->shortUrl =  url('/').'/'.$item->shortUrl;
                 });
             });
-
+            //=======================================================================================
 
             $data = [
                 'hits' => Url::where('user_id', $user['id'])->sum('hits'),
@@ -88,7 +100,9 @@ class StatsService
         return $data;
     }
 
-
+    /**
+    * Recupera o estado de todas as URLs do sistema
+    */
     static public function getAllStats(){
         $topUrls = Url::orderBy('hits', 'desc')->take(10)->get();
 
