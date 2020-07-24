@@ -17,5 +17,8 @@ $router->get('/', function(){
 $router->get('/{id}', ['uses' => 'UserController@index']);
 $router->post('/users', ['middleware' => 'return-json', 'uses' => 'UserController@createUser']);
 $router->post('/users/{id}/urls', ['middleware' => 'return-json', 'uses' => 'UrlController@createUrl']);
+$router->delete('/users/{id}', ['middleware' => 'return-json', 'uses' => 'UserController@delete']);
+
+
 $router->delete('/urls/{id}', ['middleware' => 'return-json', 'uses' => 'UrlController@delete']);
 // $router->get('/stats', ['uses' => 'ShortController@index']);

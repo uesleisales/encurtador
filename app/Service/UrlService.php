@@ -8,7 +8,17 @@ class UrlService
 {   
     static public function create($data, $id){
         $url = $data->input('url');
-
+        //Verifica se existe um usuário associado ao id enviado 
+        $id_user = User::where('nameId', $id)->first()['id'];
+        
+        if($id_user == null){
+            return [
+                'message' => 'Falha ao cadastrar a url!',
+                'statusCode' => 422,
+                'data' => [],
+            ];
+        }
+        
         //Verifica se a url do usuário veio preenchido
         if($data->input('url')){
 
@@ -16,7 +26,7 @@ class UrlService
                 'hits' => 0,
                 'shortUrl' => self::shortUrl(),
                 'url' => $url,
-                'user_id' => User::where('nameId', $id)->first()['id']
+                'user_id' => $id_user
             ];
 
             $insert_url = Url::create($newUrl);
@@ -51,8 +61,6 @@ class UrlService
                 'statusCode' => 422,
             ];
         }
-
-
         
     }
 

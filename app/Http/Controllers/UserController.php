@@ -20,4 +20,11 @@ class UserController extends Controller
         $create = UserService::create($request);
         return response()->json(['message' => $create['message'], 'data' => $create['data']],$create['statusCode']);        
    }
+
+   public function delete($id){
+    $delete = UserService::delete($id);
+    return response()->json($delete ,$delete['statusCode']);  
+   }
+
+
 }

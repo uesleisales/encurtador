@@ -2,6 +2,7 @@
 
 namespace App\Service;
 use App\Models\User;
+use App\Models\Url;
 class UserService
 {   
     static public function create($data){
@@ -36,6 +37,33 @@ class UserService
 
         }
        
+    }
+
+
+    static public function delete($id){
+
+        $user = User::where('nameId', $id)->first();
+        $user_id = $user['id'];
+
+        if($user == null){
+            return [
+                'message' => 'Falha ao remover o usuário!',
+                'statusCode' => 422,
+            ];
+        }
+
+        if($user->delete()){
+            Url::where('user_id', $user_id)->delete(); //Remove as urls associadas ao usuário
+            return [
+                'statusCode' => 204,
+            ];
+        }else{
+            return [
+                'message' => 'Falha ao remover o usuário!',
+                'statusCode' => 422,
+            ];
+        }
+
     }
 
 }
