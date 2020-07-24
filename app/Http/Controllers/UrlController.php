@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use App\Service\UserService;
+use App\Service\ResponseService;
 use App\Service\UrlService;
 
 
@@ -22,7 +23,7 @@ class UrlController extends Controller
     */
     public function createUrl(Request $request, $id){
         $create = UrlService::create($request, $id);
-        return response()->json($create ,$create['statusCode']);     
+        return ResponseService::response($create);      
    }
 
     /**
@@ -30,7 +31,7 @@ class UrlController extends Controller
     */
    public function delete($id){
         $delete = UrlService::delete($id);
-        return response()->json($delete ,$delete['statusCode']);  
+        return ResponseService::response($delete);   
    }
    
 }

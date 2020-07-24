@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\UserService;
 use App\Service\UrlService;
+use App\Service\ResponseService;
+
 
 
 class UserController extends Controller
@@ -18,7 +20,7 @@ class UserController extends Controller
    public function createUser(Request $request){
         
         $create = UserService::create($request);
-        return response()->json(['message' => $create['message'], 'data' => $create['data']],$create['statusCode']);        
+        return ResponseService::response($create);        
    }
 
 
@@ -27,7 +29,7 @@ class UserController extends Controller
     */
    public function delete($id){
     $delete = UserService::delete($id);
-    return response()->json($delete ,$delete['statusCode']);  
+    return ResponseService::response($delete); 
    }
 
 

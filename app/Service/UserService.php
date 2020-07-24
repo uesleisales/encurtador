@@ -11,24 +11,24 @@ class UserService
     */
     static public function create($data){
         $id = $data->input('id');
-
+        $verify = self::verifyEspecials($id);
         //Verifica se o id do usuário veio preenchido
-        if($id){
+        if($id && $verify){
 
             //Verifica se o usuário já existe na base de dados
             if(User::where('nameId', $id)->count() != 0){
                 return [
                     'message' => 'Usuário já cadastrado na base',
                     'statusCode' => 409,
-                    'data' => [],
                 ];
             }
 
             $user = User::Create(['nameId' => $id]);
+
             return [
                 'message' => 'Usuário cadastrado com sucesso',
                 'statusCode' => 201,
-                'data' => [],
+               
             ];
 
         }else{
@@ -36,7 +36,6 @@ class UserService
             return [
                 'message' => 'Dados inválidos!',
                 'statusCode' => 422,
-                'data' => [],
             ];
 
         }
@@ -70,6 +69,19 @@ class UserService
             ];
         }
 
+    }
+
+
+    /**
+    * Verifica se a string possui caractes especiais
+    */
+    static private function verifyEspecials($string){
+        if (preg_match('/[\'^£$%&*()}{@#~?ç><>,|=_+¬-]/', $string))
+        {
+            return false;
+        }
+
+        return true;
     }
 
 }

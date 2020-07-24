@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\StatsService;
+use App\Service\ResponseService;
 
 
 
@@ -14,7 +15,7 @@ class StatsController extends Controller
    */
    public function getAllStats(){
       $all = StatsService::getAllStats();
-      return response()->json($all ,200);  
+      return ResponseService::response($all);  
    }
 
 
@@ -23,7 +24,7 @@ class StatsController extends Controller
    */
    public function getUrlStats($id){
      $show = StatsService::getUrlStats($id);
-     return response()->json($show ,$show['statusCode']);  
+     return ResponseService::response($show); 
    }
 
 
@@ -32,7 +33,8 @@ class StatsController extends Controller
    */
    public function getUserUrlStats($id){
      $show = StatsService::getUserUrlStats($id);
-     return response()->json($show ,$show['statusCode']);  
+     return ResponseService::response($show); 
    }
+
 
 }

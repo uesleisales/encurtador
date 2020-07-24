@@ -36,7 +36,6 @@ class StatsService
             return [
                 'message' => 'Falha ao cadastrar a url!',
                 'statusCode' => 422,
-                'data' => [],
             ];
         }
        
